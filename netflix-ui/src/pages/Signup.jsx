@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Backgroundimage from "../components/Backgroundimage";
 import Header from "../components/Header";
-
+import { useNavigate } from "react-router-dom";
 export default function SignUp() {
+  const [err, setError] = useState(false);
+  const navigate = useNavigate();
+  const [email, Setemail] = useState("");
+  const trackMail = (e) => {
+    Setemail(e.target.value);
+  };
   return (
     <Container>
       <Backgroundimage></Backgroundimage>
@@ -14,19 +20,29 @@ export default function SignUp() {
             <h1>Unlimited movies , TV shows, and more</h1>
             <h4>Watch anywhere. Cancel anytime</h4>
             <h6>
-              ready to watch? Enter your email to create or restart membership
+              Ready to watch? Enter your Email to create or Restart membership
             </h6>
           </div>
           <div className="form">
-            <input type="email" placeholder="Email Address " name="email" />
             <input
-              type="password"
-              placeholder="Please enter your pass"
-              name="password"
+              type="email"
+              placeholder="Email Address "
+              name="email"
+              value={email}
+              onChange={trackMail}
             />
-            <button>Get Started</button>
+            <button
+              onClick={() => {
+                email === ""
+                  ? alert("Please enter some")
+                  : err === true
+                  ? alert("Opps")
+                  : navigate("/GetStarted");
+              }}
+            >
+              Get Started
+            </button>
           </div>
-          <button>LOGIN</button>
         </div>
       </div>
     </Container>
@@ -55,8 +71,8 @@ const Container = styled.div`
       }
       .form {
         display: grid;
-        /*  grid-template-columns: ; */
-        width: 60%;
+        grid-template-columns: 2fr 1fr;
+        width: 55%;
         input {
           color: black;
           border: none;
@@ -66,15 +82,6 @@ const Container = styled.div`
           &:focus {
             outline: none;
           }
-          button {
-            padding: 0.5rem 1rem;
-            background-color: #e50914;
-            border: none;
-            cursor: pointer;
-            color: white;
-            font-weight: bolder;
-            font-size: 1.05rem;
-          }
         }
         button {
           padding: 0.5rem 1rem;
@@ -82,9 +89,8 @@ const Container = styled.div`
           border: none;
           cursor: pointer;
           color: white;
-          border-radius: 0.2rem;
-          font-weight: bolder;
-          font-size: 1.05rem;
+          font-weight: light;
+          font-size: 1.875rem;
         }
       }
     }
