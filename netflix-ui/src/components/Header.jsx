@@ -12,29 +12,29 @@ export default function Header(props) {
       <button
         onClick={() => {
           navigate(props.login ? "/login " : "/Signup");
-          console.log(props.login);
         }}
       >
-        {props.login ? "Login In" : "SignUp"}
+        {props.login ? "Sign In" : "SignUp"}
       </button>
     </Container>
   );
 }
-const Container = Styled.div`
+const Container = Styled.div` 
+transition: background-color .5s;
 padding:0 4rem;
 .logo{
   img{
     height:5rem;
   }
 }
-  button{
+  button{ 
   padding:0.5rem 1rem;
   background-color:#e50914; 
   border:none;
   cursor:pointer;
   color:white;
   border-radius:0.2rem;
-  font-weight:bolder;
+  font-weight:400;
   font-size:1.05rem;
   }
 `;

@@ -54,7 +54,13 @@ const Container = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgb(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+    background-image: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.8) 0,
+      transparent 60%,
+      rgba(0, 0, 0, 0.8)
+    );
     height: 100vh;
     width: 100vw;
     display: grid;
@@ -67,6 +73,14 @@ const Container = styled.div`
         font-size: 2rem;
         h1 {
           padding: 0 25rem;
+        }
+        h4 {
+          font-weight: 400;
+          font-size: 1.625rem;
+        }
+        h6 {
+          font-size: 1.2rem;
+          font-weight: 400;
         }
       }
       .form {
