@@ -14,7 +14,7 @@ export default function Header(props) {
           navigate(props.login ? "/login " : "/Signup");
         }}
       >
-        {props.login ? "Sign In" : "SignUp"}
+        {props.login ? "Sign In" : "Sign Up"}
       </button>
     </Container>
   );

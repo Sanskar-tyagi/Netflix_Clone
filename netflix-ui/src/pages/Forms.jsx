@@ -29,6 +29,7 @@ export default function Forms() {
       const email = init;
       const password = pass;
       await createUserWithEmailAndPassword(firbaseauth, email, password);
+      navigate("/profile");
     } catch (error) {
       alert(error);
     }
@@ -294,7 +295,7 @@ const Container = styled.div`
           color: white;
         }
         button:hover {
-          background: #d9d9d9;
+          background: #c3121b;
           text-decoration: none;
         }
       }

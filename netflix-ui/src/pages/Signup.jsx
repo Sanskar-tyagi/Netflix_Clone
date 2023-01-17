@@ -1,9 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Backgroundimage from "../components/Backgroundimage";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { firbaseauth } from "../utils/firebase_config";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 export default function SignUp() {
+  onAuthStateChanged(firbaseauth, (currentUser) => {
+    if (currentUser) navigate("/");
+  });
   const [err, setError] = useState(false);
   const navigate = useNavigate();
   const [email, Setemail] = useState("");
