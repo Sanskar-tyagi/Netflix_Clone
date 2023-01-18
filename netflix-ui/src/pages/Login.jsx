@@ -27,15 +27,13 @@ export default function Login() {
   const trackpass = (e) => {
     usepass(e.target.value);
   };
-  onAuthStateChanged(firbaseauth, (currentUser) => {
-    if (currentUser) navigate("/");
-  });
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const mail = email;
       const password = pass;
       await signInWithEmailAndPassword(firbaseauth, mail, password);
+      navigate("/profile");
     } catch (error) {
       setError(true);
       alert(error);

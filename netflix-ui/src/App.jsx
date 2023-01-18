@@ -5,6 +5,7 @@ import GetStarted from "./pages/GetStarted";
 import Login from "./pages/Login";
 import Netflix from "./pages/Netflix";
 import PageNotFound from "./pages/PageNotFound";
+import Add from "./pages/Add";
 import SignUp from "./pages/Signup";
 import Watching from "./pages/Watching";
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Route exact path="/GetStarted" element={<GetStarted />} />
         <Route exact path="/Forms" element={<Forms />} />
         <Route exact path="/profile" element={<Watching />} />
+        <Route exact path="/Manage" element={<Add />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
