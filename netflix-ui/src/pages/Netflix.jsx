@@ -7,7 +7,16 @@ import {
 
 import { firbaseauth } from "../utils/firebase_config";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import styled from "styled-components";
+import BackgroundVid from "../components/BackgroundVid";
 export default function Netflix() {
+  const [scrolled, isScrolled] = useState(false);
+  window.onscroll = () => {
+    isScrolled(window.pageYOffset === 0 ? false : true);
+    return () => (window.onscroll = null);
+  };
+
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [email, Setemail] = useState("");
@@ -22,25 +31,13 @@ export default function Netflix() {
       }
     });
   }, []);
-  const Logout = async function (event) {
-    event.preventDefault();
-    try {
-      await signOut(firbaseauth);
-      setUser(null);
-      navigate("/login");
-    } catch (error) {
-      Seterror(error.message);
-      setTimeout(() => {
-        Seterror("");
-      }, 2000);
-    }
-  };
+
   return (
-    <>
-      <div>Netflix</div>
-      <button className="Lgout" onClick={Logout}>
-        <span>Log Out</span>
-      </button>
-    </>
+    <Container>
+      <Navbar scrolled={scrolled}></Navbar>
+      <BackgroundVid />
+    </Container>
   );
 }
+
+const Container = styled.div``;
