@@ -8,6 +8,7 @@ import PageNotFound from "./pages/PageNotFound";
 import SignUp from "./pages/Signup";
 import Watching from "./pages/Watching";
 import { AuthContext, ProtectedRoute } from "./utils/Authcontext";
+import Player from "./pages/Player";
 import { firbaseauth } from "./utils/firebase_config";
 export default function App() {
   const [firebaseAuth, setFirebaseAuth] = useState(null);
@@ -31,6 +32,7 @@ export default function App() {
         <Route exact path="/Forms" element={<Forms />} />
         <Route exact path="/profile" element={<Watching />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/Player" element={<Player />} />
       </Routes>
     </BrowserRouter>
   );
