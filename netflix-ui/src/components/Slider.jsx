@@ -1,7 +1,7 @@
 import React from "react";
 import Cardslider from "./Cardslider";
 
-export default function Slider({ movies }) {
+export default function Slider({ movies, anime }) {
   const getmovies = (from, to) => {
     return movies.slice(from, to);
   };

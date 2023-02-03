@@ -6,13 +6,21 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import BackgroundVid from "../components/BackgroundVid";
-import { fetchMovies, getGenres } from "../store";
+import {
+  fetchAnime,
+  fetchMovies,
+  getGenres,
+  RawdataAnime,
+  setAnime,
+} from "../store";
+
 import Slider from "../components/Slider";
 
 export default function Netflix() {
   const [scrolled, isScrolled] = useState(false);
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
   const movies = useSelector((state) => state.netflix.movies);
+  const anime = useSelector((state) => state.anime.anime);
   window.onscroll = () => {
     isScrolled(window.pageYOffset === 0 ? false : true);
     return () => (window.onscroll = null);
@@ -24,6 +32,7 @@ export default function Netflix() {
   const [password, Setpassword] = useState("");
   const [error, Seterror] = useState("");
 
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getGenres());
     onAuthStateChanged(firbaseauth, (user) => {
@@ -39,12 +48,15 @@ export default function Netflix() {
       dispatch(fetchMovies({ type: "all" }));
     }
   });
-  const dispatch = useDispatch();
+  useEffect(() => {
+    fetchAnime();
+  }, [dispatch]);
+
   return (
     <Container>
       <Navbar scrolled={scrolled}></Navbar>
       <BackgroundVid />
-      <Slider movies={movies} />
+      <Slider movies={movies} anime={anime} />
     </Container>
   );
 }

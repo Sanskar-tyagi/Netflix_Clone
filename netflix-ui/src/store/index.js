@@ -32,6 +32,44 @@ const createArrayfromRawdata = (array, moviesArray, genres) => {
       });
   });
 };
+async function createAnimeFromRawData(rawData, animeArray) {
+  const data = rawData;
+  console.log(animeArray);
+  for (let i = 0; i < data.length; i++) {
+    const anime = data[i];
+    if (anime) {
+      const genreArr = anime.genres.map((genre) => genre.name);
+      animeArray.push({
+        name: anime.title,
+        genre: genreArr,
+        score: anime.score,
+        image: anime.images.jpg.image_url,
+        trailer: anime.trailer.embed_url,
+        episodes: anime.episodes,
+        synopsis: anime.synopsis,
+      });
+    }
+  }
+  console.log(animeArray);
+  return animeArray;
+}
+
+export const RawdataAnime = async () => {
+  const Animearray = [];
+  for (let i = 1; Animearray.length < 60 && i < 10; i++) {
+    const { data } = await axios.get(`https://api.jikan.moe/v4/top/anime`); // Equivalent to response.data
+    const results = data?.data || [];
+
+    try {
+      await createAnimeFromRawData(results, Animearray);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  return Animearray;
+};
+
 const rawData = async (api, genres, paging) => {
   const moviesArray = [];
   for (let i = 1; moviesArray.length < 60 && i < 10; i++) {
@@ -78,36 +116,14 @@ const netflixSlice = createSlice({
     });
   },
 });
-export const fetchAnime = createAsyncThunk(
-  "myanimelist/topAnime",
-  async ({ type }, thunkAPI) => {
-    const {
-      myanimelist: { genres },
-    } = thunkAPI.getState();
-    return rawData(`https://api.jikan.moe/v4/top/anime`, genres, false);
-  }
-);
-export const getGenresAnime = createAsyncThunk(
-  "Myanimelist/genres",
-  async () => {
-    const {
-      data: { genres },
-    } = await axios.get(`https://api.jikan.moe/v4/genres/anime`);
 
-    return genres;
-  }
-);
 const animeSlice = createSlice({
   name: "Myanimelist",
-  initialAnime,
-  extraReducers: (builder) => {
-    builder.addCase(getGenresAnime.fulfilled, (state, action) => {
-      state.genres = action.payload;
-      state.genresLoaded = true;
-    });
-    builder.addCase(fetchAnime.fulfilled, (state, action) => {
+  initialState: initialAnime,
+  reducers: {
+    setAnime: (state, action) => {
       state.anime = action.payload;
-    });
+    },
   },
 });
 export const store = configureStore({
@@ -116,3 +132,8 @@ export const store = configureStore({
     anime: animeSlice.reducer,
   },
 });
+export const { setAnime } = animeSlice.actions;
+export const fetchAnime = () => async (dispatch) => {
+  const anime = await RawdataAnime();
+  dispatch(setAnime(anime));
+};
