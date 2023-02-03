@@ -7,12 +7,11 @@ import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import BackgroundVid from "../components/BackgroundVid";
 import {
-  fetchAnime,
   fetchMovies,
   getGenres,
   RawdataAnime,
-  setAnime,
-} from "../store";
+  updateAnime,
+} from "../store/index";
 
 import Slider from "../components/Slider";
 
@@ -21,6 +20,7 @@ export default function Netflix() {
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
   const movies = useSelector((state) => state.netflix.movies);
   const anime = useSelector((state) => state.anime.anime);
+
   window.onscroll = () => {
     isScrolled(window.pageYOffset === 0 ? false : true);
     return () => (window.onscroll = null);
@@ -43,14 +43,18 @@ export default function Netflix() {
       }
     });
   }, []);
+  const [animeRawData, setAnimeRawData] = useState(null);
+
   useEffect(() => {
-    if (genresLoaded) {
+    if (!genresLoaded) {
       dispatch(fetchMovies({ type: "all" }));
     }
   });
   useEffect(() => {
-    fetchAnime();
-  }, [dispatch]);
+    RawdataAnime().then((data) => {
+      dispatch(updateAnime(data));
+    });
+  }, []);
 
   return (
     <Container>
