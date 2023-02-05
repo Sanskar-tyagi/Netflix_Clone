@@ -1,11 +1,10 @@
 import React from "react";
 
 import styled from "styled-components";
-export default function AnimeCard({ animedata }) {
-  console.log(animedata.image + "Yohohjohoohho");
+export default function AnimeCard({ animedata, isLiked = false }) {
   return (
     <Container>
-      <img src={`${animedata.image}`} alt="hyeawfaf" />
+      <img src={`${animedata.image}`} alt="Animes" />
     </Container>
   );
 }
