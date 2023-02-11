@@ -9,9 +9,25 @@ export default function Slider({ movies, anime }) {
     return anime.slice(from, to);
   };
   return (
-    <div>
-      <Cardslider title="Trending Now" data={getmovies(0, 10)}></Cardslider>
-      <Cardslider title="TOP in INDIA" data={getmovies(10, 20)}></Cardslider>
+    <div
+      style={{
+        position: "absolute",
+        top: "42vw",
+        zIndex: "99",
+        background: "transparent",
+        backgroundImage:
+          "linear-gradient(180deg, rgba(20, 20, 20, 0) 0%, rgba(20, 20, 20, 11) 10%, rgba(20, 20, 20, 1) 29%, rgba(20, 20, 20, 1) 44%, rgba(20, 20, 20, 1) 100%)",
+      }}
+    >
+      <Cardslider
+        className={"first-card"}
+        title="Trending Now"
+        data={getmovies(0, 10)}
+      ></Cardslider>
+      <Cardslider
+        title="Top Movies in India Today"
+        data={getmovies(10, 20)}
+      ></Cardslider>
       <AnimeCardslider title="ANIME" data={getanime(20, 30)}></AnimeCardslider>
       <Cardslider title="NEW RELEASE" data={getmovies(30, 40)}></Cardslider>
       <AnimeCardslider
