@@ -15,6 +15,25 @@ const initialAnime = {
   genresLoaded: false,
   genres: [],
 };
+let hr = 1;
+let count = 0;
+
+function generateLength() {
+  let min;
+  if (hr === 1) {
+    min = Math.floor(Math.random() * (53 - 45 + 1)) + 45;
+  } else {
+    min = Math.floor(Math.random() * (50 - 22 + 1)) + 22;
+  }
+
+  let result = hr + "hr " + min + "m";
+  count++;
+  if (count % 5 === 0) {
+    hr = hr === 1 ? 2 : 1;
+  }
+
+  return result;
+}
 
 const createArrayfromRawdata = (array, moviesArray, genres) => {
   array.forEach((movie) => {
@@ -23,13 +42,28 @@ const createArrayfromRawdata = (array, moviesArray, genres) => {
       const name = genres.find(({ id }) => id === genre);
       if (name) movieGenres.push(name.name);
     });
-    if (movie.backdrop_path)
+    if (movie.backdrop_path) {
+      let voteAverage = movie.vote_average;
+      let voteAverageFixed = voteAverage.toFixed(2);
+      let voteAverageNumber = parseFloat(voteAverageFixed);
+      let voteAverageInt = voteAverageNumber * 10;
+      let vote = parseFloat(voteAverageInt.toFixed(2));
+      let adult;
+      if (movie.adult === false) {
+        adult = "U/A";
+      } else {
+        adult = "A";
+      }
       moviesArray.push({
         id: movie.id,
         name: movie?.original_name ? movie.original_name : movie.original_title,
         image: movie.backdrop_path,
         genres: movieGenres.slice(0, 3),
+        Vote: vote,
+        adult: adult,
+        length: generateLength(),
       });
+    }
   });
 };
 export const getAnimeRaw = createAsyncThunk("anime/raw", async (thunkAPI) => {

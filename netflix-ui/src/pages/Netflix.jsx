@@ -65,4 +65,6 @@ export default function Netflix() {
   );
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+  overflow: hidden;
+`;

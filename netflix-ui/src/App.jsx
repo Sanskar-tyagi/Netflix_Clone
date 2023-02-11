@@ -34,6 +34,6 @@ export default function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/Player" element={<Player />} />
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter>  
   );
 }
