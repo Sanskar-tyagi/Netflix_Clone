@@ -1,13 +1,52 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import styled from "styled-components";
 import Card from "./Card";
 export default function Cardslider({ data, title, className }) {
-  const [showControls, setShowcontrols] = useState(false);
-  const listRef = useRef();
   const [sliderPosition, setSliderPosition] = useState(0);
+  const [showControlright, setShowControlright] = useState(false);
+  const [showControlleft, setShowControlleft] = useState(false);
+  const [showControls, setShowcontrols] = useState(false);
+  const checkControls = () => {
+    if (sliderPosition > 0) {
+      setShowControlleft(true);
+    } else {
+      setShowControlleft(false);
+    }
+
+    if (sliderPosition < 4) {
+      setShowControlright(true);
+    } else {
+      setShowControlright(false);
+    }
+  };
+
+  // use effect to call checkControls whenever sliderPosition changes
+  useEffect(() => {
+    checkControls();
+  }, [sliderPosition]);
+  const listRef = useRef();
+
   const [show, hide] = useState(false);
-  const handleDir = (dir) => {};
+  const handleDir = (direction) => {
+    let distance = listRef.current.getBoundingClientRect().x - 80;
+    if (direction === "left" && sliderPosition > 0 && sliderPosition !== 4) {
+      listRef.current.style.transform = `translateX(${257 + distance}px)`;
+      setSliderPosition(sliderPosition - 1);
+    }
+    if (direction === "left" && sliderPosition === 4) {
+      listRef.current.style.transform = `translateX(${221 + distance}px)`;
+      setSliderPosition(sliderPosition - 1);
+    }
+    if (direction === "right" && sliderPosition === 3) {
+      listRef.current.style.transform = `translateX(${-181 + distance}px)`;
+      setSliderPosition(sliderPosition + 1);
+    }
+    if (direction === "right" && sliderPosition < 3) {
+      listRef.current.style.transform = `translateX(${-217 + distance}px)`;
+      setSliderPosition(sliderPosition + 1);
+    }
+  };
   return (
     <>
       <Div className="flex" style={{ alignItems: "center" }}>
@@ -27,20 +66,23 @@ export default function Cardslider({ data, title, className }) {
         className={`flex cloumn ${className === "first-card" ? "oni" : ""}`}
         onMouseEnter={() => {
           setShowcontrols(true);
+          checkControls();
         }}
         onMouseLeave={() => {
           setShowcontrols(false);
         }}
       >
         <div className="wrapper">
-          <div
-            className={`slider-action left ${
-              !showControls ? "none" : ""
-            } flex j-center a-center`}
-          >
-            {" "}
-            <AiOutlineLeft onClick={() => handleDir("left")} />
-          </div>
+          {showControlleft && (
+            <div
+              className={`slider-action left ${
+                !showControls ? "none" : ""
+              } flex j-center a-center`}
+            >
+              {" "}
+              <AiOutlineLeft onClick={() => handleDir("left")} />
+            </div>
+          )}
           <div className="flex slider" ref={listRef}>
             {data.map((movie, index) => {
               return (
@@ -48,14 +90,16 @@ export default function Cardslider({ data, title, className }) {
               );
             })}
           </div>
-          <div
-            className={`slider-action right ${
-              !showControls ? "none" : ""
-            } flex j-center a-center`}
-          >
-            {" "}
-            <AiOutlineRight onClick={() => handleDir("right")} />
-          </div>
+          {showControlright && (
+            <div
+              className={`slider-action right ${
+                !showControls ? "none" : ""
+              } flex j-center a-center`}
+            >
+              {" "}
+              <AiOutlineRight onClick={() => handleDir("right")} />
+            </div>
+          )}
         </div>
       </Container>
     </>
@@ -63,7 +107,37 @@ export default function Cardslider({ data, title, className }) {
 }
 const Container = styled.div`
   margin: 3vw 60px;
-  margin-top: 0vw;
+  position: relative;
+  margin-top: 1rem;
+  width: 95vw;
+  .wrapper {
+    .slider {
+      transform: translate(0px);
+      width: max-content;
+      transition: 0.3s ease-in-out;
+    }
+    .slider-action {
+      position: absolute;
+      z-index: 999;
+      height: 100%;
+      bottom: 0;
+      background: hsla(0, 0%, 8%, 0.5);
+      top: 0;
+      transition: 0.3s ease-in-out;
+      svg {
+        font-size: 2rem;
+      }
+    }
+
+    .left {
+      left: -61px;
+      width: 58px;
+    }
+    .right {
+      right: 0;
+      width: 41px;
+    }
+  }
 `;
 const Span = styled.span`
   color: #54b9c5;
