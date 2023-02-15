@@ -76,11 +76,16 @@ async function createAnimeFromRawData(rawData, animeArray) {
     if (anime) {
       try {
         const genreArr = anime.genres.map((genre) => genre.name);
+        let voteAverage = anime.score;
+        let voteAverageFixed = voteAverage.toFixed(2);
+        let voteAverageNumber = parseFloat(voteAverageFixed);
+        let voteAverageInt = voteAverageNumber * 10;
+        let vote = parseFloat(voteAverageInt.toFixed(2));
         animeArray.push({
           id: anime.mal_id,
           name: anime.title,
           genre: genreArr,
-          score: anime.score,
+          score: vote,
           image: anime.images.jpg.image_url,
           trailer: anime.trailer.embed_url,
           episodes: anime.episodes,
@@ -120,7 +125,6 @@ const rawData = async (api, genres, paging = false) => {
       console.error(error);
     }
   }
-
   return moviesArray;
 };
 export const getGenres = createAsyncThunk("netflix/genres", async () => {

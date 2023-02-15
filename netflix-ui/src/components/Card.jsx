@@ -11,12 +11,17 @@ import { BsCheck, BsHandThumbsUp, BsHandThumbsDown } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
 
-export default function Card({ movieData, isLiked = false }) {
+export default function Card({
+  movieData,
+  isLiked = false,
+  left,
+  right,
+  index,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [shrinked, setShrink] = useState(false);
   const nav = useNavigate();
   const timeoutRef = useRef(0);
-
   const intervalRef = useRef(0);
 
   useEffect(() => {
@@ -51,7 +56,9 @@ export default function Card({ movieData, isLiked = false }) {
     <Container
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`${isHovered ? "hovered" : ""}`}
+      className={`${isHovered ? "hovered" : ""} ${
+        index === right ? "rght" : ""
+      }  `}
     >
       <img
         src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
@@ -59,7 +66,7 @@ export default function Card({ movieData, isLiked = false }) {
       />
 
       <div
-        className="hover rr"
+        className={`hover rr ${index === left ? "lft" : ""}`}
         style={{
           visibility: `${isHovered === true ? "visible" : "hidden"}`,
           opacity: `${isHovered === true ? "1" : "0"}`,
@@ -73,22 +80,6 @@ export default function Card({ movieData, isLiked = false }) {
                 alt="age"
                 onClick={() => nav("/player")}
               />
-
-              <video
-                src={op}
-                autoPlay
-                loop
-                muted
-                onClick={() => nav("/player")}
-              >
-                {" "}
-                <div className="mute icons flex j-between">
-                  <div className="controls flex">
-                    <IoVolumeHighSharp />
-                    <IoVolumeMuteSharp />
-                  </div>
-                </div>
-              </video>
               <h3 className={`name ${shrinked === true ? "shrink" : ""}`}>
                 {movieData.name}
               </h3>
@@ -211,11 +202,16 @@ const Container = styled.div`
   cursor: pointer;
   padding: 0 0.2vw;
   position: relative;
+
   &.hovered {
     transition-delay: 0.5s;
-    transform: scale(1.3);
+    transform: translateZ(2vw) scale(1.1);
     transition: transform 600ms ease-in;
+    &.rght {
+      transform: translateX(-1vw) translateZ(2vw) scale(1.1);
+    }
   }
+
   img {
     position: relative;
     border-radius: 0.2rem;
@@ -229,22 +225,23 @@ const Container = styled.div`
     z-index: 999;
     height: max-content;
     position: absolute;
-    top: -10vh;
+    top: -16vh;
     border-radius: 0.3rem;
     box-shadow: #000000c4 0px 3px 10px;
     width: 262.307692px;
     height: 285px;
     background-color: #181818;
+
     .image-video {
       position: relative;
       height: 140px;
       img {
-        width: 227px;
+        width: 100%;
         height: 140px;
         object-fit: cover;
         border-radius: 0.3rem;
         top: 0;
-        z-index: 4;
+        max-width: none !important;
         position: absolute;
       }
       video {

@@ -189,11 +189,11 @@ const Container = styled.div`
     }
     .mute {
       position: absolute;
-      bottom: 20vw;
+      bottom: 24vw;
       right: -1%;
       z-index: 999;
       &.replay {
-        bottom: 24vw !important;
+        bottom: 28vw !important;
       }
     }
     .pos {

@@ -3,6 +3,8 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import styled from "styled-components";
 import Card from "./Card";
 export default function Cardslider({ data, title, className }) {
+  const [left, setLeft] = useState(0);
+  const [right, setRight] = useState(5);
   const [sliderPosition, setSliderPosition] = useState(0);
   const [showControlright, setShowControlright] = useState(false);
   const [showControlleft, setShowControlleft] = useState(false);
@@ -19,6 +21,7 @@ export default function Cardslider({ data, title, className }) {
     } else {
       setShowControlright(false);
     }
+    console.log(left, right);
   };
 
   // use effect to call checkControls whenever sliderPosition changes
@@ -33,18 +36,26 @@ export default function Cardslider({ data, title, className }) {
     if (direction === "left" && sliderPosition > 0 && sliderPosition !== 4) {
       listRef.current.style.transform = `translateX(${257 + distance}px)`;
       setSliderPosition(sliderPosition - 1);
+      setLeft(left - 1);
+      setRight(right - 1);
     }
     if (direction === "left" && sliderPosition === 4) {
       listRef.current.style.transform = `translateX(${221 + distance}px)`;
       setSliderPosition(sliderPosition - 1);
+      setLeft(left - 1);
+      setRight(right - 1);
     }
     if (direction === "right" && sliderPosition === 3) {
       listRef.current.style.transform = `translateX(${-181 + distance}px)`;
       setSliderPosition(sliderPosition + 1);
+      setLeft(left + 1);
+      setRight(right + 1);
     }
     if (direction === "right" && sliderPosition < 3) {
       listRef.current.style.transform = `translateX(${-217 + distance}px)`;
       setSliderPosition(sliderPosition + 1);
+      setLeft(left + 1);
+      setRight(right + 1);
     }
   };
   return (
@@ -63,7 +74,7 @@ export default function Cardslider({ data, title, className }) {
         <Span>Explore all {" >"}</Span>
       </Div>
       <Container
-        className={`flex cloumn ${className === "first-card" ? "oni" : ""}`}
+        className={`flex cloumn`}
         onMouseEnter={() => {
           setShowcontrols(true);
           checkControls();
@@ -86,7 +97,13 @@ export default function Cardslider({ data, title, className }) {
           <div className="flex slider" ref={listRef}>
             {data.map((movie, index) => {
               return (
-                <Card movieData={movie} index={index} key={movie.id}></Card>
+                <Card
+                  left={left}
+                  right={right}
+                  movieData={movie}
+                  index={index}
+                  key={movie.id}
+                ></Card>
               );
             })}
           </div>
@@ -106,6 +123,7 @@ export default function Cardslider({ data, title, className }) {
   );
 }
 const Container = styled.div`
+  z-index: 0;
   margin: 3vw 60px;
   position: relative;
   margin-top: 1rem;
@@ -128,7 +146,9 @@ const Container = styled.div`
         font-size: 2rem;
       }
     }
-
+    .none {
+      display: none;
+    }
     .left {
       left: -61px;
       width: 58px;
