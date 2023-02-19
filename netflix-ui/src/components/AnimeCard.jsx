@@ -199,7 +199,7 @@ const Container = styled.div`
   position: relative;
   &.hovered {
     margin: 40px;
-    margin-right: 60px;
+    margin-right: 90px;
     transition-delay: 0.5s;
     transform: translateZ(2vw) scale(1.2);
     transition: transform 600ms ease-in;
@@ -218,9 +218,9 @@ const Container = styled.div`
   img {
     position: relative;
     border-radius: 0.2rem;
-    width: 231px;
+    width: 200px;
     border-radius: 4px;
-    max-width: 231px;
+    max-width: 200px;
     height: 131px;
     z-index: -1;
   }
@@ -241,6 +241,7 @@ const Container = styled.div`
         width: 100%;
         height: 160px;
         object-fit: cover;
+        filter: brightness(0.6);
         object-position: top;
         border-radius: 0.3rem;
         top: 0;
@@ -368,7 +369,7 @@ const Container = styled.div`
     display: inline-block;
     transition: transform 0.2s;
     position: relative;
-    border-radius: 10px;
+    border-radius: 4px;
     overflow: hidden;
     margin: 0.19rem;
     cursor: pointer;

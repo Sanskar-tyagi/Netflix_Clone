@@ -27,7 +27,6 @@ export default function AnimeCardslider({ data, title }) {
   }, [sliderPosition]);
   const listRef = useRef();
 
-  const [show, hide] = useState(false);
   const handleDir = (direction) => {
     let distance = listRef.current.getBoundingClientRect().x - 100;
 

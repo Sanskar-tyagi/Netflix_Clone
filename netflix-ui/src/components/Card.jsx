@@ -1,15 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import op from "../assets/Op.mp4";
-import {
-  IoPlayCircleSharp,
-  IoVolumeMuteSharp,
-  IoVolumeHighSharp,
-} from "react-icons/io5";
-import { BsCheck, BsHandThumbsUp, BsHandThumbsDown } from "react-icons/bs";
-import { AiOutlinePlus } from "react-icons/ai";
-import { BiChevronDown } from "react-icons/bi";
 
 export default function Card({
   movieData,

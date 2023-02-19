@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import op from "../assets/Op.mp4";
 import Oplogo from "../assets/opopNomi.png";
 import opPoster from "../assets/OPoster.jpg";
 import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import styled from "styled-components";
-import { VscMute, VscUnmute } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 
 export default function BackgroundVid() {
   const [fadeOut, setFadeOut] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -25,7 +26,9 @@ export default function BackgroundVid() {
   const handleMute = () => {
     if (isLoaded === true) {
       setIsMuted(!isMuted);
-    } else {
+    } else if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
       setIsLoaded(true);
       setTimeout(() => {
         setFadeOut(true);
@@ -52,6 +55,7 @@ export default function BackgroundVid() {
           style={{ display: `${!isLoaded ? "none" : "block"}` }}
           onLoadedData={handleLoad}
           onEnded={handleEnd}
+          ref={videoRef}
         ></video>
         <div className="vig"></div>
 
